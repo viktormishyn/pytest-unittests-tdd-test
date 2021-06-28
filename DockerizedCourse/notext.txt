@@ -1,0 +1,9 @@
+docker-compose build
+
+docker-compose run test sh
+# it will open the container, from here we can run pytest
+
+pytest
+# to run tests matching particular pattern
+pytest -k <pattern>
+exit
