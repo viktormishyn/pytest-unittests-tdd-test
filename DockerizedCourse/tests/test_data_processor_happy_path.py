@@ -1,3 +1,5 @@
+import pytest
+
 from scripts import data_aggregator
 
 
@@ -46,17 +48,13 @@ def test_data_population_update(prep_transform_data):
         assert 'Updated' in row
 
 
-def test_average_altitude_per_country(process_data):
+@pytest.mark.parametrize("country,stat,expected", [
+    ("Andorra", "Mean", 1641.42),
+    ("Andorra", "Median", 1538.02),
+    ("Argentina", "Median", 125.0)
+])
+def test_altitude_stat_per_country(process_data, country, stat, expected):
     data = process_data(file_name_or_type='clean_map.csv')
-    andorran_avg_res = data_aggregator.altitude_stat_per_country(
-        data, 'Andorra', 'Mean')
+    res = data_aggregator.altitude_stat_per_country(data, country, stat)
 
-    assert andorran_avg_res == {'Country': 'Andorra', 'Mean': 1641.42}
-
-
-def test_median_altitude_per_country(process_data):
-    data = process_data(file_name_or_type='clean_map.csv')
-    andorran_avg_res = data_aggregator.altitude_stat_per_country(
-        data, 'Andorra', 'Median')
-
-    assert andorran_avg_res == {'Country': 'Andorra', 'Median': 1538.02}
+    assert res == {'Country': country, stat: expected}
