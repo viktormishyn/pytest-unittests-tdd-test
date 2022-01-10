@@ -28,3 +28,16 @@ def test_csv_reader_data_contents(process_data):
     assert len(data) == 180
     assert data[0]['Country'] == 'Andorra'
     assert data[179]['Country'] == 'United States'
+
+
+def test_data_population_update(prep_transform_data):
+    """
+    Happy Path test
+    """
+    data_to_transform, population_dict = prep_transform_data
+    data_to_transform.add_population(population_dict)
+    # transform object in place
+
+    for row in data_to_transform.get_data():
+        assert 'Population' in row
+        assert 'Updated' in row
