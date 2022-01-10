@@ -3,7 +3,7 @@ def test_csv_reader_header_fields(process_data):
     Happy Path test to make sure the processed data
     contains the right header fields
     """
-    data = process_data
+    data = process_data(file_name_or_type='clean_map.csv')
     header_fields = list(data[0].keys())
     assert header_fields == ['Country', 'City',
                              'State_Or_Province', 'Lat', 'Long', 'Altitude']
@@ -14,7 +14,7 @@ def test_csv_reader_data_contents(process_data):
     Happy Path test to examine that each row
     has the appropriate data type per field
     """
-    data = process_data
+    data = process_data(file_name_or_type='clean_map.csv')
 
     # check row types
     for row in data:

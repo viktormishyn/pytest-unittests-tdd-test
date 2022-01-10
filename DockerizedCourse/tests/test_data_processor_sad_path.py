@@ -1,15 +1,12 @@
 import pytest
 
-from scripts import data_processor
-from constants import CITY_LIST_LOCATION_MALFORMED
 
-
-def test_csv_reader_malformed_data_contents():
+def test_csv_reader_malformed_data_contents(process_data):
     """
     Sad Path test
     """
     with pytest.raises(ValueError) as exp:
-        data_processor.csv_reader(CITY_LIST_LOCATION_MALFORMED)
+        process_data(file_name_or_type='malformed_map.csv')
     assert str(exp.value) == "could not convert string to float: 'not_an_altitude'"
 
 
