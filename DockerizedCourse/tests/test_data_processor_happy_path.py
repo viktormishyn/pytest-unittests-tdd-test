@@ -1,3 +1,6 @@
+from scripts import data_aggregator
+
+
 def test_csv_reader_header_fields(process_data):
     """
     Happy Path test to make sure the processed data
@@ -41,3 +44,19 @@ def test_data_population_update(prep_transform_data):
     for row in data_to_transform.get_data():
         assert 'Population' in row
         assert 'Updated' in row
+
+
+def test_average_altitude_per_country(process_data):
+    data = process_data(file_name_or_type='clean_map.csv')
+    andorran_avg_res = data_aggregator.altitude_stat_per_country(
+        data, 'Andorra', 'Mean')
+
+    assert andorran_avg_res == {'Country': 'Andorra', 'Mean': 1641.42}
+
+
+def test_median_altitude_per_country(process_data):
+    data = process_data(file_name_or_type='clean_map.csv')
+    andorran_avg_res = data_aggregator.altitude_stat_per_country(
+        data, 'Andorra', 'Median')
+
+    assert andorran_avg_res == {'Country': 'Andorra', 'Median': 1538.02}
